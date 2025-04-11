@@ -9,9 +9,6 @@ export class PaymentsService {
   private payments: Payment[] = PAYMENTS;
 
   getPayments(from: string, to: string, searchText?: string): Payment[] {
-    if (!searchText && !from && !to) {
-      return this.payments;
-    }
     const fromMoment: Moment = moment(from);
     const toMoment: Moment = moment(to);
 
@@ -31,13 +28,11 @@ export class PaymentsService {
     endDate: Moment,
     searchText?: string,
   ): boolean {
+    let isTextMatch: boolean = true;
     if (searchText) {
-      const isTextMatch =
+      isTextMatch =
         this.isTextMatch(payment.supplier, searchText) ||
         this.isTextMatch(payment.description, searchText);
-      if (isTextMatch) {
-        return true;
-      }
     }
     const paymentDateMoment = moment(payment.date);
     const isDateMatch = paymentDateMoment.isBetween(
@@ -47,6 +42,6 @@ export class PaymentsService {
       '[]',
     ); //including edges, match by date.
 
-    return isDateMatch;
+    return isDateMatch && isTextMatch;
   }
 }

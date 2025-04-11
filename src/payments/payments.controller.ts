@@ -1,10 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 
-@Controller('payments')
+@Controller('/payments')
 export class PaymentsController {
   constructor(private paymentsService: PaymentsService) {}
-  @Get()
+  @Get('filter')
   filter(
     @Query('startDate') fromDate: string,
     @Query('endDate') toDate: string,
